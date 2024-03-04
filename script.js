@@ -56,45 +56,29 @@ function update(time = 0){
     lastTime = time
 
     dropCounter += deltaTime
-    console.log(score > 50 && score < 100)
-    if(score < 50){
-        if(dropCounter > 1000){
-            piece.position.y++
-            dropCounter = 0
-    
-            if(checkCollision()){
-                piece.position.y--
-                solidifyPiece()
-                removeRows()
-            }
-        }
-    }else if(score > 50 && score < 100){
-        if(dropCounter > 500){
-            piece.position.y++
-            dropCounter = 0
-    
-            if(checkCollision()){
-                piece.position.y--
-                solidifyPiece()
-                removeRows()
-            }
-        }
+
+    let dropInterval = 1000
+    if(score > 50 && score < 100){
+        dropInterval = 500
     }else if(score > 100){
-        if(dropCounter > 300){
-            piece.position.y++
-            dropCounter = 0
-    
-            if(checkCollision()){
-                piece.position.y--
-                solidifyPiece()
-                removeRows()
-            }
+        dropInterval = 300
+    }
+
+    if(dropCounter > dropInterval){
+        piece.position.y++
+        dropCounter = 0
+
+        if(checkCollision()){
+            piece.position.y--
+            solidifyPiece()
+            removeRows()
         }
     }
 
     draw()
     window.requestAnimationFrame(update)
 }
+
 
 function draw(){
     ctx.fillStyle = '#000'
